@@ -31,7 +31,7 @@ void drawPolyline
 }
 
 
-void drawLandmarks(Mat& im, vector<Point2f>& landmarks)
+void DrawLandmarks(Mat& im, vector<Point2f>& landmarks)
 {
     for (int i = 0; i < landmarks.size(); i++)
     {
@@ -39,7 +39,7 @@ void drawLandmarks(Mat& im, vector<Point2f>& landmarks)
     }
 }
 
-void drawFaceRect(Mat& im, vector<Rect>& faces)
+void DrawFaceRect(Mat& im, vector<Rect>& faces)
 {
     for (auto& face : faces)
     {

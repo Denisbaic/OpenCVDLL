@@ -156,7 +156,7 @@
   <ItemGroup>
     <ClInclude Include="CreateAndLinkDLLfile.h" />
     <ClInclude Include="DrawGameLogic.h" />
-    <ClInclude Include="drawLandmarks.h" />
+    <ClInclude Include="DrawLandmarks.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
