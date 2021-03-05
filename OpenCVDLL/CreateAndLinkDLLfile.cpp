@@ -163,6 +163,17 @@ void GetMouseField(int& x, int& y, int& width, int& height)
     height = mouse_field.height;
 }
 
+bool IsCamOpened()
+{
+    return cam.isOpened();
+}
+
+void GetFrameSize(int& width, int& height)
+{
+    width = frame.cols;
+    height = frame.rows;
+}
+
 
 /*
 int init_dlib(int cam_index, char* predictorFilePath)

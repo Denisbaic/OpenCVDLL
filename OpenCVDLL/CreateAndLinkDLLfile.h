@@ -52,3 +52,7 @@
 
 	extern "C" void DLL_EXPORT SetMouseField(int x, int y, int width, int height);
 	extern "C" void DLL_EXPORT GetMouseField(int& x, int& y, int& width, int& height);
+
+	extern "C" bool DLL_EXPORT IsCamOpened();
+
+	extern "C" void DLL_EXPORT GetFrameSize(int& width, int& height);
