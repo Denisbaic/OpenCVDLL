@@ -59,7 +59,7 @@ bool IsEyeOpen(int face_index, bool check_left_eye, float EAR)
 
 bool IsMouthOpen(int face_index, float MAR)
 {
-    if (face_index < 0 || face_index >= landmarks.size())
+    if (face_index < 0 || face_index >= landmarks.size() || landmarks[face_index].size()!=68)
         return false;
 	
     float const CurrentMAR = (euclideanDist(landmarks[face_index][61], landmarks[face_index][67]) +
@@ -107,7 +107,11 @@ void GetFrame(uchar*& OutputFrame)
      if (is_selected_nose_position_for_mouse_control)
      {
 	        DrawMouseRect(frame, mouse_field);
-	        DrawMouseDirection(frame, mouse_field, landmarks[0]);
+     	
+     	if(landmarks.size()>0)
+     	{
+            DrawMouseDirection(frame, mouse_field, landmarks[0]);
+     	}	       
      }
 
      if (is_need_to_show_b_box)
@@ -180,16 +184,20 @@ void ResizeFrame(int& width, int& height)
     cv::resize(frame, frame, cv::Size(width, height));
 }
 
-bool GetFacialLandmarks(int face_index, vector<std::pair<float,float>>& facial_landmarks)
+void GetFacialLandmarks(int face_index, float*& arr_output, int& size)
 {
-	if(face_index < 0 || static_cast<unsigned long long>(face_index) >= facial_landmarks.size())
-        return false;
-    facial_landmarks.clear();
-   for(auto& elem : landmarks[face_index])
-   {
-       facial_landmarks.emplace_back(elem.x,elem.y);
-   }
-	return true;
+	if(face_index < 0 || static_cast<unsigned long long>(face_index) >= landmarks.size() || landmarks[face_index].size()!= 68)
+	{
+        arr_output = nullptr;
+		return;
+	}
+    size = 136;
+	for (int i = 0; i < 68; ++i)
+	{
+        FacialLandmarks_output[i * 2] = landmarks[face_index][i].x;
+        FacialLandmarks_output[i * 2+1] = landmarks[face_index][i].y;
+	}
+    arr_output = FacialLandmarks_output;
 }
 
 

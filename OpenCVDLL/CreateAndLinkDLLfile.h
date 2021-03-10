@@ -31,6 +31,7 @@
 	vector< vector<Point2f> > landmarks;
 	vector<Rect> faces;
 
+	float FacialLandmarks_output[136];
 
 	extern "C" int  DLL_EXPORT InitOpenCV(int cam_index, char* face_detector_cascade_file_path, char* face_mark_model_file_path, int mouse_wheel_field_width, int mouse_wheel_field_height);
 
@@ -59,4 +60,4 @@
 
 	extern "C" void DLL_EXPORT ResizeFrame(int& width, int& height);
 
-	extern "C" bool DLL_EXPORT GetFacialLandmarks(int face_index, vector<std::pair<float, float>>&facial_landmarks);
+	extern "C" void DLL_EXPORT GetFacialLandmarks(int face_index, float*& arr_output, int& size);
