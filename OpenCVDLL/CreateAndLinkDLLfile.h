@@ -56,3 +56,7 @@
 	extern "C" bool DLL_EXPORT IsCamOpened();
 
 	extern "C" void DLL_EXPORT GetFrameSize(int& width, int& height);
+
+	extern "C" void DLL_EXPORT ResizeFrame(int& width, int& height);
+
+	extern "C" bool DLL_EXPORT GetFacialLandmarks(int face_index, vector<std::pair<float, float>>&facial_landmarks);

@@ -21,16 +21,16 @@ int InitOpenCV(int cam_index, char* face_detector_cascade_file_path, char* face_
 	
     mouse_field.height = mouse_wheel_field_height;
     mouse_field.width = mouse_wheel_field_width;
-    	
+    //return 4;
     cam.release();
-    if (cam.open(cam_index) == false)
+    if (!cam.open(cam_index))
         return 1;
 
     face_detector.load(face_detector_cascade_file_path);
     if (face_detector.empty())
         return 2;
 	
-    facemark.release();
+    //facemark.release();
     facemark = face::FacemarkLBF::create();
     facemark->loadModel(face_mark_model_file_path);
     if (facemark->empty())
@@ -78,6 +78,7 @@ bool CalculateFacialLandmarks()
 	// There can be more than one face in the image. Hence, we 
 	// use a vector of vector of points. 
     landmarks.clear();
+	//TODO move this to another place
     if (!cam.read(frame))
         return false;
     
@@ -172,6 +173,23 @@ void GetFrameSize(int& width, int& height)
 {
     width = frame.cols;
     height = frame.rows;
+}
+
+void ResizeFrame(int& width, int& height)
+{
+    cv::resize(frame, frame, cv::Size(width, height));
+}
+
+bool GetFacialLandmarks(int face_index, vector<std::pair<float,float>>& facial_landmarks)
+{
+	if(face_index < 0 || static_cast<unsigned long long>(face_index) >= facial_landmarks.size())
+        return false;
+    facial_landmarks.clear();
+   for(auto& elem : landmarks[face_index])
+   {
+       facial_landmarks.emplace_back(elem.x,elem.y);
+   }
+	return true;
 }
 
 
