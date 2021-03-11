@@ -11,6 +11,7 @@ inline float euclideanDist(Point2f& p, Point2f& q) {
 int InitOpenCV(int cam_index, char* face_detector_cascade_file_path, char* face_mark_model_file_path,
                  int const mouse_wheel_field_width, int const mouse_wheel_field_height)
 {
+#ifndef DLIB
     is_selected_nose_position_for_mouse_control = false;
     is_need_to_show_b_box = false;
 
@@ -35,7 +36,15 @@ int InitOpenCV(int cam_index, char* face_detector_cascade_file_path, char* face_
     facemark->loadModel(face_mark_model_file_path);
     if (facemark->empty())
         return 3;
+#else
+    if (cam.open(cam_index) == false)
+        return 3;
 
+    
+    dlib::deserialize(face_detector_cascade_file_path) >> pose_model;
+
+    return 0;
+#endif
     return 0;
 }
 

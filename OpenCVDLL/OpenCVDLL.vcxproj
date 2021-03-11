@@ -81,8 +81,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>E:\opencv_rep\build\install\include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\opencv_rep\build\install\x64\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\dlib_project\include;E:\opencv_rep\build\install\include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\dlib_project\lib;E:\opencv_rep\build\install\x64\vc16\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -150,7 +150,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>opencv_calib3d451.lib;opencv_core451.lib;opencv_features2d451.lib;opencv_flann451.lib;opencv_highgui451.lib;opencv_imgcodecs451.lib;opencv_imgproc451.lib;opencv_ml451.lib;opencv_objdetect451.lib;opencv_photo451.lib;opencv_shape451.lib;opencv_stitching451.lib;opencv_superres451.lib;opencv_video451.lib;opencv_videoio451.lib;opencv_videostab451.lib;opencv_face451.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dlib19.21.0_release_64bit_msvc1928.lib;opencv_calib3d451.lib;opencv_core451.lib;opencv_features2d451.lib;opencv_flann451.lib;opencv_highgui451.lib;opencv_imgcodecs451.lib;opencv_imgproc451.lib;opencv_ml451.lib;opencv_objdetect451.lib;opencv_photo451.lib;opencv_shape451.lib;opencv_stitching451.lib;opencv_superres451.lib;opencv_video451.lib;opencv_videoio451.lib;opencv_videostab451.lib;opencv_face451.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

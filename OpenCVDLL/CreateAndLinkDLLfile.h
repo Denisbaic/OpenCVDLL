@@ -5,7 +5,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/face.hpp>
 #include "DrawLandmarks.h"
-/*
+
 #include <dlib/opencv.h>
 
 #include <opencv2/highgui/highgui.hpp>
@@ -14,7 +14,16 @@
 #include <dlib/image_processing.h>
 #include <dlib/gui_widgets.h>
 
-*/
+
+
+#define DLIB
+
+#ifdef DLIB
+
+dlib::frontal_face_detector detector = dlib::get_frontal_face_detector();
+dlib::shape_predictor pose_model;
+#endif
+
 
 	CascadeClassifier face_detector;
 	Ptr<face::Facemark> facemark;
