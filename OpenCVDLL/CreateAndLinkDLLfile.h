@@ -5,7 +5,10 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/face.hpp>
 #include "DrawLandmarks.h"
+#include <opencv2/dnn.hpp>
+#include <opencv2/face/facemarkLBF.hpp>
 
+/*
 #include <dlib/opencv.h>
 
 #include <opencv2/highgui/highgui.hpp>
@@ -13,10 +16,10 @@
 #include <dlib/image_processing/render_face_detections.h>
 #include <dlib/image_processing.h>
 #include <dlib/gui_widgets.h>
+*/
 
 
-
-#define DLIB
+//#define DLIB
 
 #ifdef DLIB
 
@@ -25,7 +28,36 @@ dlib::shape_predictor pose_model;
 #endif
 
 
-	CascadeClassifier face_detector;
+class FaceDetector {
+public:
+	explicit FaceDetector();
+
+	bool load(std::string const& face_detection_configuration, std::string const& face_detection_weights);
+	/// Detect faces in an image frame
+	/// \param frame Image to detect faces in
+	/// \return Vector of detected faces
+	std::vector<cv::Rect> detect_face_rectangles(const cv::Mat& frame);
+
+private:
+	/// Face detection network
+	cv::dnn::Net network_;
+	/// Input image width
+	const int input_image_width_;
+	/// Input image height
+	const int input_image_height_;
+	/// Scale factor when creating image blob
+	const double scale_factor_;
+	/// Mean normalization values network was trained with
+	const cv::Scalar mean_values_;
+	/// Face detection confidence threshold
+	const float confidence_threshold_;
+
+};
+
+
+
+	//CascadeClassifier face_detector;
+	FaceDetector face_detector;
 	Ptr<face::Facemark> facemark;
 
 	VideoCapture cam;
@@ -42,9 +74,9 @@ dlib::shape_predictor pose_model;
 
 	float FacialLandmarks_output[136];
 
-	extern "C" int  DLL_EXPORT InitOpenCV(int cam_index, char* face_detector_cascade_file_path, char* face_mark_model_file_path, int mouse_wheel_field_width, int mouse_wheel_field_height);
+	extern "C" int  DLL_EXPORT InitOpenCV(int cam_index, char* face_detector_config, char* face_detector_weights ,char* face_mark_model_file_path, int mouse_wheel_field_width, int mouse_wheel_field_height);
 
-	extern "C" bool DLL_EXPORT IsEyeOpen(int face_index, bool check_left_eye, float EAR);
+	extern "C" bool DLL_EXPORT IsEyeOpen(int face_index, bool check_left_eye, float EAR, float& current_ear);
 
 	extern "C" bool DLL_EXPORT IsMouthOpen(int face_index, float MAR);
 
