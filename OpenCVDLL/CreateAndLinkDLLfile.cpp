@@ -18,7 +18,7 @@ inline void DrawMouseRect(cv::Mat& im, cv::Rect& MouseRect)
 inline void DrawMouseDirection(cv::Mat& im, cv::Rect& MouseRect, std::vector<cv::Point2f>& landmarks)
 {
 	cv::Point2i const MiddlePoint(MouseRect.x + MouseRect.width / 2, MouseRect.y + MouseRect.height / 2);
-    line(im, MiddlePoint, landmarks[30], cv::Scalar(255, 200, 0));
+    line(im, MiddlePoint, landmarks[30], ui_color);
 }
 
 void DrawLandmarks(cv::Mat& im, std::vector<cv::Point2f>& landmarks)
@@ -244,14 +244,14 @@ void GetFacialLandmarks(int face_index, float*& arr_output, int& size)
 
 void SetUIColor(float R, float G, float B)
 {
-    ui_color = cv::Scalar(R, G, B);
+    ui_color = cv::Scalar(B, G, R);
 }
 
 void GetUIColor(float& R, float& G, float& B)
 {
-    R = ui_color.val[0];
-    G = ui_color.val[1];
-    B = ui_color.val[2];
+    B = ui_color.val[0]; //B
+    G = ui_color.val[1]; //G
+    R = ui_color.val[2]; //R
 }
 
 
