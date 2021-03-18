@@ -4,7 +4,6 @@
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/face.hpp>
-#include "DrawLandmarks.h"
 #include <opencv2/dnn.hpp>
 #include <opencv2/face/facemarkLBF.hpp>
 
@@ -58,19 +57,21 @@ private:
 
 	//CascadeClassifier face_detector;
 	FaceDetector face_detector;
-	Ptr<face::Facemark> facemark;
+	cv::Ptr<cv::face::Facemark> facemark;
 
-	VideoCapture cam;
+	cv::VideoCapture cam;
 
 	// Variable to store a video frame and its grayscale 
-	Mat frame, gray;
+	cv::Mat frame, gray;
 
 	//game events
     bool is_need_to_show_b_box = false;	
 	bool is_selected_nose_position_for_mouse_control = false;
-	Rect mouse_field;
-	vector< vector<Point2f> > landmarks;
-	vector<Rect> faces;
+	cv::Rect mouse_field;
+	std::vector<std::vector<cv::Point2f> > landmarks;
+	std::vector<cv::Rect> faces;
+
+	cv::Scalar ui_color(255, 0, 0);
 
 	float FacialLandmarks_output[136];
 
@@ -98,7 +99,9 @@ private:
 	extern "C" bool DLL_EXPORT IsCamOpened();
 
 	extern "C" void DLL_EXPORT GetFrameSize(int& width, int& height);
-
 	extern "C" void DLL_EXPORT ResizeFrame(int& width, int& height);
 
 	extern "C" void DLL_EXPORT GetFacialLandmarks(int face_index, float*& arr_output, int& size);
+
+	extern "C" void DLL_EXPORT SetUIColor(double R, double G, double B);
+	extern "C" void DLL_EXPORT GetUIColor(double& R, double& G, double& B);;

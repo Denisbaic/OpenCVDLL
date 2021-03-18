@@ -24,12 +24,6 @@
     <ClInclude Include="CreateAndLinkDLLfile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DrawGameLogic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawLandmarks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">

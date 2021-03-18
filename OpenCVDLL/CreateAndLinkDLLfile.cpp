@@ -1,12 +1,45 @@
 #include "pch.h"
 
 #include "CreateAndLinkDLLfile.h"
-#include "DrawGameLogic.h"
 
-inline float euclideanDist(Point2f& p, Point2f& q) {
-    Point2f diff = p - q;
+inline float euclideanDist(cv::Point2f& p, cv::Point2f& q) {
+	cv::Point2f diff = p - q;
     return cv::sqrt(diff.x * diff.x + diff.y * diff.y);
 }
+
+inline void DrawMouseRect(cv::Mat& im, cv::Rect& MouseRect)
+{
+    line(im, { MouseRect.x , MouseRect.y }, { MouseRect.x , MouseRect.y + MouseRect.height }, ui_color);
+    line(im, { MouseRect.x , MouseRect.y }, { MouseRect.x + MouseRect.width , MouseRect.y }, ui_color);
+    line(im, { MouseRect.x + MouseRect.width , MouseRect.y }, { MouseRect.x + MouseRect.width , MouseRect.y + MouseRect.height }, ui_color);
+    line(im, { MouseRect.x , MouseRect.y + MouseRect.height }, { MouseRect.x + MouseRect.width , MouseRect.y + MouseRect.height }, ui_color);
+}
+
+inline void DrawMouseDirection(cv::Mat& im, cv::Rect& MouseRect, std::vector<cv::Point2f>& landmarks)
+{
+	cv::Point2i const MiddlePoint(MouseRect.x + MouseRect.width / 2, MouseRect.y + MouseRect.height / 2);
+    line(im, MiddlePoint, landmarks[30], cv::Scalar(255, 200, 0));
+}
+
+void DrawLandmarks(cv::Mat& im, std::vector<cv::Point2f>& landmarks)
+{
+    for (int i = 0; i < landmarks.size(); i++)
+    {
+        circle(im, landmarks[i], 3, ui_color, cv::FILLED);
+    }
+}
+
+void DrawFaceRect(cv::Mat& im, std::vector<cv::Rect>& faces)
+{
+    for (auto& face : faces)
+    {
+        line(im, { face.x , face.y }, { face.x , face.y + face.height }, ui_color);
+        line(im, { face.x , face.y }, { face.x + face.width , face.y }, ui_color);
+        line(im, { face.x + face.width , face.y }, { face.x + face.width , face.y + face.height }, ui_color);
+        line(im, { face.x , face.y + face.height }, { face.x + face.width , face.y + face.height }, ui_color);
+    }
+}
+
 
 int InitOpenCV(int cam_index, char* face_detector_config, char* face_detector_weights,  char* face_mark_model_file_path,
                  int const mouse_wheel_field_width, int const mouse_wheel_field_height)
@@ -33,7 +66,7 @@ int InitOpenCV(int cam_index, char* face_detector_config, char* face_detector_we
       //  return 2;
 	
     //facemark.release();
-    facemark = face::FacemarkLBF::create();
+    facemark = cv::face::FacemarkLBF::create();
     facemark->loadModel(face_mark_model_file_path);
     if (facemark->empty())
         return 3;
@@ -166,7 +199,7 @@ bool GetIsSelectedNosePositionForMouseControl()
 
 void SetMouseField(int x, int y, int width, int height)
 {
-    mouse_field = Rect(x, y, width, height);
+    mouse_field = cv::Rect(x, y, width, height);
 }
 
 void GetMouseField(int& x, int& y, int& width, int& height)
@@ -207,6 +240,18 @@ void GetFacialLandmarks(int face_index, float*& arr_output, int& size)
         FacialLandmarks_output[i * 2+1] = landmarks[face_index][i].y;
 	}
     arr_output = FacialLandmarks_output;
+}
+
+void SetUIColor(double R, double G, double B)
+{
+    ui_color = cv::Scalar(R, G, B);
+}
+
+void GetUIColor(double& R, double& G, double& B)
+{
+    R = ui_color.val[0];
+    G = ui_color.val[1];
+    B = ui_color.val[2];
 }
 
 
