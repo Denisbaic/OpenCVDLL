@@ -242,12 +242,12 @@ void GetFacialLandmarks(int face_index, float*& arr_output, int& size)
     arr_output = FacialLandmarks_output;
 }
 
-void SetUIColor(double R, double G, double B)
+void SetUIColor(float R, float G, float B)
 {
     ui_color = cv::Scalar(R, G, B);
 }
 
-void GetUIColor(double& R, double& G, double& B)
+void GetUIColor(float& R, float& G, float& B)
 {
     R = ui_color.val[0];
     G = ui_color.val[1];

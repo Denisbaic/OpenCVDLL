@@ -103,5 +103,5 @@ private:
 
 	extern "C" void DLL_EXPORT GetFacialLandmarks(int face_index, float*& arr_output, int& size);
 
-	extern "C" void DLL_EXPORT SetUIColor(double R, double G, double B);
-	extern "C" void DLL_EXPORT GetUIColor(double& R, double& G, double& B);;
+	extern "C" void DLL_EXPORT SetUIColor(float R, float G, float B);
+	extern "C" void DLL_EXPORT GetUIColor(float& R, float& G, float& B);;
