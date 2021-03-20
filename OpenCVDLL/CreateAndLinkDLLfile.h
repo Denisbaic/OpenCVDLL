@@ -81,6 +81,8 @@ dlib::shape_predictor pose_model;
 
 	extern "C" bool DLL_EXPORT IsMouthOpen(int face_index, float MAR);
 
+	extern "C" bool DLL_EXPORT IsEyeBrownsRaised(int face_index, float BAR, float& current_bar);
+
 	extern "C" bool DLL_EXPORT CalculateFacialLandmarks();
 
 	extern "C" void DLL_EXPORT GetFrame(uchar* &  OutputFrame);
