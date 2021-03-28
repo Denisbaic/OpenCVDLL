@@ -81,7 +81,7 @@ dlib::shape_predictor pose_model;
 
 	extern "C" bool DLL_EXPORT IsMouthOpen(int face_index, float MAR);
 
-	extern "C" bool DLL_EXPORT IsEyeBrownsRaised(int face_index, float BAR, float& current_bar);
+	extern "C" bool DLL_EXPORT IsEyebrowsRaised(int face_index, float BAR, float& current_bar);
 
 	extern "C" bool DLL_EXPORT CalculateFacialLandmarks();
 
@@ -101,9 +101,9 @@ dlib::shape_predictor pose_model;
 	extern "C" bool DLL_EXPORT IsCamOpened();
 
 	extern "C" void DLL_EXPORT GetFrameSize(int& width, int& height);
-	extern "C" void DLL_EXPORT ResizeFrame(int& width, int& height);
+	extern "C" void DLL_EXPORT ResizeFrame(int width, int height);
 
 	extern "C" void DLL_EXPORT GetFacialLandmarks(int face_index, float*& arr_output, int& size);
 
 	extern "C" void DLL_EXPORT SetUIColor(float R, float G, float B);
-	extern "C" void DLL_EXPORT GetUIColor(float& R, float& G, float& B);;
+	extern "C" void DLL_EXPORT GetUIColor(float& R, float& G, float& B);

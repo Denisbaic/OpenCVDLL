@@ -112,12 +112,18 @@ bool IsMouthOpen(int face_index, float MAR)
     return 	CurrentMAR >= MAR;
 }
 
-bool IsEyeBrownsRaised(int face_index, float BAR, float& current_bar)
+bool IsEyebrowsRaised(int face_index, float BAR, float& current_bar)
 {
-    const float lBAR = (euclideanDist(landmarks[face_index][23], landmarks[face_index][43]) + euclideanDist(landmarks[face_index][24], landmarks[face_index][43]) + euclideanDist(landmarks[face_index][25], landmarks[face_index][43]) + euclideanDist(landmarks[face_index][23], landmarks[face_index][44]) + euclideanDist(landmarks[face_index][24], landmarks[face_index][44]) + euclideanDist(landmarks[face_index][25], landmarks[face_index][44])) / (3.f * cv::max(euclideanDist(landmarks[face_index][22], landmarks[face_index][26]), euclideanDist(landmarks[face_index][17], landmarks[face_index][21])));
-    const float rBAR = (euclideanDist(landmarks[face_index][18], landmarks[face_index][37]) + euclideanDist(landmarks[face_index][19], landmarks[face_index][37]) + euclideanDist(landmarks[face_index][20], landmarks[face_index][37]) + euclideanDist(landmarks[face_index][18], landmarks[face_index][38]) + euclideanDist(landmarks[face_index][19], landmarks[face_index][38]) + euclideanDist(landmarks[face_index][20], landmarks[face_index][38])) / (3.f * cv::max(euclideanDist(landmarks[face_index][22], landmarks[face_index][26]), euclideanDist(landmarks[face_index][17], landmarks[face_index][21])));
-    current_bar = cv::max(lBAR, rBAR);
-    return current_bar > BAR;
+    //const float lBAR = (euclideanDist(landmarks[face_index][23], landmarks[face_index][43]) + euclideanDist(landmarks[face_index][24], landmarks[face_index][43]) + euclideanDist(landmarks[face_index][25], landmarks[face_index][43]) + euclideanDist(landmarks[face_index][23], landmarks[face_index][44]) + euclideanDist(landmarks[face_index][24], landmarks[face_index][44]) + euclideanDist(landmarks[face_index][25], landmarks[face_index][44])) / (3.f * cv::max(euclideanDist(landmarks[face_index][22], landmarks[face_index][26]), euclideanDist(landmarks[face_index][17], landmarks[face_index][21])));
+    //const float rBAR = (euclideanDist(landmarks[face_index][18], landmarks[face_index][37]) + euclideanDist(landmarks[face_index][19], landmarks[face_index][37]) + euclideanDist(landmarks[face_index][20], landmarks[face_index][37]) + euclideanDist(landmarks[face_index][18], landmarks[face_index][38]) + euclideanDist(landmarks[face_index][19], landmarks[face_index][38]) + euclideanDist(landmarks[face_index][20], landmarks[face_index][38])) / (3.f * cv::max(euclideanDist(landmarks[face_index][22], landmarks[face_index][26]), euclideanDist(landmarks[face_index][17], landmarks[face_index][21])));
+    //current_bar = cv::max(lBAR, rBAR);
+    if (face_index < 0 || face_index >= landmarks.size() || landmarks[face_index].size() != 68)
+        return false;
+	
+    float const lBAR = (euclideanDist(landmarks[face_index][8], landmarks[face_index][22]) + euclideanDist(landmarks[face_index][8], landmarks[face_index][23]) + euclideanDist(landmarks[face_index][8], landmarks[face_index][24]) + euclideanDist(landmarks[face_index][8], landmarks[face_index][25]) + euclideanDist(landmarks[face_index][8], landmarks[face_index][26]))/(4.f* euclideanDist(landmarks[face_index][8], landmarks[face_index][27]));
+    float const rBAR = (euclideanDist(landmarks[face_index][8], landmarks[face_index][17]) + euclideanDist(landmarks[face_index][8], landmarks[face_index][18]) + euclideanDist(landmarks[face_index][8], landmarks[face_index][19]) + euclideanDist(landmarks[face_index][8], landmarks[face_index][20]) + euclideanDist(landmarks[face_index][8], landmarks[face_index][21]))/(4.f * euclideanDist(landmarks[face_index][8], landmarks[face_index][27]));
+	current_bar = cv::max(lBAR, rBAR);
+	return current_bar > BAR;
 }
 
 bool CalculateFacialLandmarks()
@@ -229,7 +235,7 @@ void GetFrameSize(int& width, int& height)
     height = frame.rows;
 }
 
-void ResizeFrame(int& width, int& height)
+void ResizeFrame(int width, int height)
 {
     cv::resize(frame, frame, cv::Size(width, height));
 }
