@@ -52,8 +52,7 @@ dlib::shape_predictor pose_model;
 		const float confidence_threshold_;
 
 	};
-
-
+	
 
 	//CascadeClassifier face_detector;
 	FaceDetector face_detector;
@@ -64,8 +63,14 @@ dlib::shape_predictor pose_model;
 	// Variable to store a video frame and its grayscale 
 	cv::Mat frame, gray;
 
+	//TEST
+	std::vector<cv::Mat> test_faces;
+	bool is_test_mode = false;
+	int test_frame_index = 0;
+
+
 	//game events
-    bool is_need_to_show_b_box = false;	
+    bool is_need_to_show_b_box = false;
 	bool is_selected_nose_position_for_mouse_control = false;
 	cv::Rect mouse_field;
 	std::vector<std::vector<cv::Point2f> > landmarks;
@@ -77,9 +82,11 @@ dlib::shape_predictor pose_model;
 
 	extern "C" int  DLL_EXPORT InitOpenCV(int cam_index, char* face_detector_config, char* face_detector_weights ,char* face_mark_model_file_path, int mouse_wheel_field_width, int mouse_wheel_field_height);
 
+	extern "C" void DLL_EXPORT LoadDataSet(char* folder);
+
 	extern "C" bool DLL_EXPORT IsEyeOpen(int face_index, bool check_left_eye, float EAR, float& current_ear);
 
-	extern "C" bool DLL_EXPORT IsMouthOpen(int face_index, float MAR);
+	extern "C" bool DLL_EXPORT IsMouthOpen(int face_index, float MAR, float& current_mar);
 
 	extern "C" bool DLL_EXPORT IsEyebrowsRaised(int face_index, float BAR, float& current_bar);
 
@@ -107,3 +114,7 @@ dlib::shape_predictor pose_model;
 
 	extern "C" void DLL_EXPORT SetUIColor(float R, float G, float B);
 	extern "C" void DLL_EXPORT GetUIColor(float& R, float& G, float& B);
+
+	//TEST
+	extern "C" void DLL_EXPORT SetTestMode(bool IsTestMode);
+	extern "C" void DLL_EXPORT NextFrame(bool GetOppositeFrame);

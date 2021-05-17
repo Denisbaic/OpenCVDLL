@@ -82,6 +82,17 @@ int InitOpenCV(int cam_index, char* face_detector_config, char* face_detector_we
     return 0;
 }
 
+void LoadDataSet(char* folder)
+{
+	std::vector<cv::String> fn;
+	cv::String const folder_str(folder);
+	cv::glob(folder_str +"*.png", fn, false);
+
+	size_t const count = fn.size(); //number of png files in images folder
+    for (size_t i = 0; i < count; i++)
+        test_faces.push_back(cv::imread(fn[i]));
+}
+
 bool IsEyeOpen(int face_index, bool check_left_eye, float EAR,float& current_ear)
 {
     if (face_index < 0 || face_index >= landmarks.size() || landmarks[face_index].size() != 68)
@@ -101,7 +112,7 @@ bool IsEyeOpen(int face_index, bool check_left_eye, float EAR,float& current_ear
     return CurrentEAR >= EAR;
 }
 
-bool IsMouthOpen(int face_index, float MAR)
+bool IsMouthOpen(int face_index, float MAR, float& current_mar)
 {
     if (face_index < 0 || face_index >= landmarks.size() || landmarks[face_index].size()!=68)
         return false;
@@ -109,7 +120,8 @@ bool IsMouthOpen(int face_index, float MAR)
     float const CurrentMAR = (euclideanDist(landmarks[face_index][61], landmarks[face_index][67]) +
         euclideanDist(landmarks[face_index][62], landmarks[face_index][66]) +
         euclideanDist(landmarks[face_index][63], landmarks[face_index][65])) / (2.f * euclideanDist(landmarks[face_index][60], landmarks[face_index][64]));
-    return 	CurrentMAR >= MAR;
+    current_mar = CurrentMAR;
+	return 	CurrentMAR >= MAR;
 }
 
 bool IsEyebrowsRaised(int face_index, float BAR, float& current_bar)
@@ -137,8 +149,15 @@ bool CalculateFacialLandmarks()
 	// use a vector of vector of points. 
     landmarks.clear();
 	//TODO move this to another place
-    if (!cam.read(frame))
-        return false;
+	if(!is_test_mode)
+	{
+		if (!cam.read(frame))
+			return false;
+	}
+    else
+    {
+        test_faces[test_frame_index].copyTo(frame);
+    }
     
     // Convert frame to grayscale because
     // face_detector requires grayscale image.
@@ -267,6 +286,22 @@ void GetUIColor(float& R, float& G, float& B)
     G = ui_color.val[1]; //G
     R = ui_color.val[2]; //R
 }
+
+void SetTestMode(bool IsTestMode)
+{
+    is_test_mode = IsTestMode;
+}
+
+template <typename T>
+T clip(const T& n, const T& lower, const T& upper) {
+    return std::max(lower, std::min(n, upper));
+}
+
+void NextFrame(bool GetOppositeFrame)
+{
+    test_frame_index = clip(GetOppositeFrame ? test_frame_index - 1 : test_frame_index + 1, 0, static_cast<int>(test_faces.size()));
+}
+
 
 
 /*
